@@ -7,7 +7,7 @@ package com.nevile.rbac01.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.nevile.rbac01.controller.User;
+import com.nevile.rbac01.pojo.User;
 
 /** 
  * @ClassName: BasicRepository 

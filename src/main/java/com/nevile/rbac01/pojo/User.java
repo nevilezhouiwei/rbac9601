@@ -3,7 +3,7 @@
  * @author: Administrator   
  * @date: 2019年1月27日 上午11:45:18 
  */
-package com.nevile.rbac01.controller;
+package com.nevile.rbac01.pojo;
 
 import java.io.Serializable;
 import java.util.Date;

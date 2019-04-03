@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nevile.rbac01.dao.UserDao;
+import com.nevile.rbac01.pojo.User;
 
 /** 
  * @ClassName: HelloSpringBoot 
@@ -27,11 +28,10 @@ public class HelloSpringBoot {
 
 	 @RequestMapping("/")
 		public User findById() {
-//			Optional<User> optional = userDao.findById("1");
-//			User user = optional.get();
-//			user.setModifyBy("SYS");
-//			userDao.save(user);
-			//return user.getUserName();
-			return null;
+			Optional<User> optional = userDao.findById("1");
+			User user = optional.get();
+			user.setModifyBy("SYS");
+			userDao.save(user);
+			return user;
 		}
 }
