@@ -5,7 +5,6 @@
  */
 package com.nevile.rbac01.pojo;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +20,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.nevile.base.BasePojo;
+
 /**
  * @ClassName: User
  * @Description: 用户POJO
@@ -29,7 +30,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "t_user")
-public class User {
+public class User extends BasePojo{
 	@Id
 	@Column(name = "user_id")
 	@GeneratedValue(generator = "system_id")
@@ -56,17 +57,7 @@ public class User {
 	@NotNull
 	private String userSalt;
 
-	@Column(name = "create_time")
-	private Date createTime;
-
-	@Column(name = "create_user")
-	private String createUser;
-
-	@Column(name = "modify_time")
-	private Date modifyTime;
-
-	@Column(name = "modify_by")
-	private String modifyBy;
+	
 
 	public String getUserID() {
 		return userID;
@@ -99,33 +90,7 @@ public class User {
 		this.userSalt = userSalt;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public String getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-
-	public Date getModifyTime() {
-		return modifyTime;
-	}
-
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
-
-	public String getModifyBy() {
-		return modifyBy;
-	}
+	
 
 	public Set<Role> getRoles() {
 		return roles;
@@ -135,16 +100,19 @@ public class User {
 		this.roles = roles;
 	}
 
-	public void setModifyBy(String modifyBy) {
-		this.modifyBy = modifyBy;
-	}
 
 	@Override
 	public String toString() {
 		return "User [userID=" + userID + ", roles=" + roles + ", userName=" + userName + ", userPassword="
-				+ userPassword + ", userSalt=" + userSalt + ", createTime=" + createTime + ", createUser=" + createUser
-				+ ", modifyTime=" + modifyTime + ", modifyBy=" + modifyBy + "]";
+				+ userPassword + ", userSalt=" + userSalt + ", toString()=" + super.toString() + "]";
 	}
+
+
+
+
+
+	
+
 
 	
 
