@@ -28,7 +28,7 @@ public class HelloSpringBoot {
 
 	 @RequestMapping("/")
 		public User findById() {
-			Optional<User> optional = userDao.findById("1");
+			Optional<User> optional = userDao.findById("2");
 			User user = optional.get();
 			user.setModifyBy("SYS");
 			userDao.save(user);
