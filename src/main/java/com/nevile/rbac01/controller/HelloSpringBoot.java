@@ -5,14 +5,10 @@
  */
 package com.nevile.rbac01.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.nevile.rbac01.dao.UserDao;
-import com.nevile.rbac01.pojo.User;
 
 /** 
  * @ClassName: HelloSpringBoot 
@@ -22,16 +18,31 @@ import com.nevile.rbac01.pojo.User;
  */
 @RestController
 public class HelloSpringBoot {
-	
-	 @Autowired
-		public UserDao userDao;
 
-	 @RequestMapping("/")
-		public User findById() {
-			Optional<User> optional = userDao.findById("2");
-			User user = optional.get();
-			user.setModifyBy("SYS");
-			userDao.save(user);
-			return user;
-		}
+	@Autowired
+	public UserDetailsService UserDetailsService;
+
+//	 @RequestMapping("/login")
+//	 public String login() {
+//		 
+//		return "登录成功";
+//		 
+//	 }
+	 
+	 @RequestMapping("/decsion")
+	 public String decsion() {
+		 
+		return "decsion";
+		 
+	 }
+	 
+	 @RequestMapping("/setting")
+	 public String setting() {
+		 
+		return "setting";
+		 
+	 }
+	 
+
+
 }

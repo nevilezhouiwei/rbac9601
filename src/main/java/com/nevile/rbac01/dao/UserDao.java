@@ -5,7 +5,8 @@
  */
 package com.nevile.rbac01.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import com.nevile.rbac01.pojo.User;
 
@@ -15,6 +16,8 @@ import com.nevile.rbac01.pojo.User;
  * @author: Administrator
  * @date: 2019年1月27日 下午12:49:02  
  */
-public  interface UserDao extends JpaRepository<User, String> {
+@Mapper
+public  interface UserDao {
+	public User findByUserName(String userName);
 
 }

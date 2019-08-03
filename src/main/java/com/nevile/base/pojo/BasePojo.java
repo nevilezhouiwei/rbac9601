@@ -3,17 +3,9 @@
  * @author: Administrator   
  * @date: 2019年2月13日 下午10:57:24 
  */
-package com.nevile.base;
+package com.nevile.base.pojo;
 
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 
 /** 
  * @ClassName: BasePojo 
@@ -21,21 +13,14 @@ import org.hibernate.annotations.GenerationTime;
  * @author: Administrator
  * @date: 2019年2月13日 下午10:57:24  
  */
-@MappedSuperclass  
 public  class BasePojo {
 	
-    @Temporal(TemporalType.TIMESTAMP)  
-    @Column(name="create_time",  nullable=false, updatable = false)  
-    @Generated(GenerationTime.INSERT)
 	private Date createTime;
 	
-	@Column(name="create_user")
 	private String createUser;
 	
-	@Column(name="modify_time")
 	private Date modifyTime;
 	
-	@Column(name="modify_by")
 	private String modifyBy;
 
 	public Date getCreateTime() {
