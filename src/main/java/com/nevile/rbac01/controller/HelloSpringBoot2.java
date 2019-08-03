@@ -22,9 +22,9 @@ import com.nevile.rbac01.service.ResourceService;
  * @date: 2019年1月24日 下午11:15:58  
  */
 @RestController
-@RequestMapping("/1")
-@NevileAuth(module = "HelloSpringBoot",desc="HSB des")
-public class HelloSpringBoot {
+@RequestMapping("/2")
+@NevileAuth(module = "HelloSpringBoot2",desc="HSB des")
+public class HelloSpringBoot2 {
 
 	@Autowired
 	public UserDetailsService UserDetailsService;
@@ -33,7 +33,7 @@ public class HelloSpringBoot {
 	public ResourceService resourceService;
 
 	 @RequestMapping("/decsion")
-	 @NevileOperater(operater = Operater.READ,desc="HelloSpringBoot decsion")
+	 @NevileOperater(operater = Operater.READ,desc="HelloSpringBoot2 decsion")
 	 public String decsion() {
 		 
 		return "decsion";
@@ -41,7 +41,7 @@ public class HelloSpringBoot {
 	 }
 	 
 	 @RequestMapping("/setting")
-	 @NevileOperater(operater = "setting",desc="HelloSpringBoot setting")
+	 @NevileOperater(operater = Operater.WRITE,desc="HelloSpringBoot2 setting")
 	 public String setting() {
 		 
 		return "setting";
