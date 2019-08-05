@@ -17,13 +17,13 @@ import com.nevile.rbac01.service.ResourceService;
 
 /** 
  * @ClassName: HelloSpringBoot 
- * @Description: TODO
+ * @Description: HelloSpringBoot 测试模块
  * @author: Administrator
  * @date: 2019年1月24日 下午11:15:58  
  */
 @RestController
-@RequestMapping("/1")
-@NevileAuth(module = "HelloSpringBoot",desc="HSB des")
+@RequestMapping("/hellospringboot")
+@NevileAuth(module = "HelloSpringBoot",desc="HSB 测试模块")
 public class HelloSpringBoot {
 
 	@Autowired
@@ -32,19 +32,31 @@ public class HelloSpringBoot {
 	@Autowired
 	public ResourceService resourceService;
 
-	 @RequestMapping("/decsion")
-	 @NevileOperater(operater = Operater.READ,desc="HelloSpringBoot decsion")
-	 public String decsion() {
+	 
+	/**
+	 *  Description:HelloSpringBoot 测试模块 测试写接口
+	 *  @author zw DateTime 2019年8月5日 下午4:57:23
+	 *  @return
+	 */
+	@RequestMapping("/write")
+	 @NevileOperater(operater = Operater.WRITE,desc="HSB 测试写接口")
+	 public String write() {
 		 
-		return "decsion";
+		return "write";
 		 
 	 }
 	 
-	 @RequestMapping("/setting")
-	 @NevileOperater(operater = "setting",desc="HelloSpringBoot setting")
-	 public String setting() {
+	 
+	/**
+	 *  Description:HelloSpringBoot 测试模块 测试读接口
+	 *  @author zw DateTime 2019年8月5日 下午4:57:54
+	 *  @return
+	 */
+	@RequestMapping("/read")
+	 @NevileOperater(operater = Operater.READ,desc="HSB 测试读接口")
+	 public String read() {
 		 
-		return "setting";
+		return "read";
 		 
 	 }
 	 

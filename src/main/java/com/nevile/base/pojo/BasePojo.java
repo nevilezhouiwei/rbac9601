@@ -55,11 +55,6 @@ public  class BasePojo {
 		this.modifyBy = modifyBy;
 	}
 
-	@Override
-	public String toString() {
-		return "BasePojo [createTime=" + createTime + ", createUser=" + createUser + ", modifyTime=" + modifyTime
-				+ ", modifyBy=" + modifyBy + "]";
-	}
 
 
 	

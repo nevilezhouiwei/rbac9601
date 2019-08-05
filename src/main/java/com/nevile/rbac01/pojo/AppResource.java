@@ -9,26 +9,21 @@ import org.springframework.stereotype.Component;
 
 import com.nevile.base.pojo.BasePojo;
 @Component
-public class Resource extends BasePojo {
+public class AppResource extends BasePojo {
 	
-	private int resourceId;//资源ID
-	private int t_p_resource_id;
+	private String resourceId;//资源ID
+	private String tpdid;
 	private String resourceName;//资源名称
 	private String operation;//操作
 	private String resourceDes;//资源描述
 	private String app;//资源归类
-	public int getResourceId() {
+	public String getResourceId() {
 		return resourceId;
 	}
-	public void setResourceId(int resourceId) {
+	public void setResourceId(String resourceId) {
 		this.resourceId = resourceId;
 	}
-	public int getT_p_resource_id() {
-		return t_p_resource_id;
-	}
-	public void setT_p_resource_id(int t_p_resource_id) {
-		this.t_p_resource_id = t_p_resource_id;
-	}
+
 	public String getResourceName() {
 		return resourceName;
 	}
@@ -53,8 +48,17 @@ public class Resource extends BasePojo {
 	public void setApp(String app) {
 		this.app = app;
 	}
-	
-	
+	public String getTpdid() {
+		return tpdid;
+	}
+	public void setTpdid(String tpdid) {
+		this.tpdid = tpdid;
+	}
+	@Override
+	public String toString() {
+		return "AppResource [resourceId=" + resourceId + ", tpdid=" + tpdid + ", resourceName=" + resourceName
+				+ ", operation=" + operation + ", resourceDes=" + resourceDes + ", app=" + app + "]";
+	}
 	
 
 }

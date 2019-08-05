@@ -9,19 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import com.nevile.rbac01.dao.ResourceDao;
-import com.nevile.rbac01.pojo.Resource;
 import com.nevile.rbac01.pojo.Role;
 import com.nevile.rbac01.pojo.User;
 
 @Service
 public class ResourceService {
 //	@Autowired(required=false)
-//	private ResourceDao permissionDao;
+//	private AppResourceDao permissionDao;
 
 	/*
 	 * 根据用户查找用户被赋予的角色

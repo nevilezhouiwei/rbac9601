@@ -24,7 +24,7 @@ public class Role extends BasePojo{
 	private Set<User> users = new HashSet<User>();
 
 
-	private Set<Resource> permissions = new HashSet<Resource>();
+	private Set<AppResource> permissions = new HashSet<AppResource>();
 
 	
 	private String roleName;
@@ -59,11 +59,11 @@ public class Role extends BasePojo{
 	
 	
 
-	public Set<Resource> getPermissions() {
+	public Set<AppResource> getAppResource() {
 		return permissions;
 	}
 
-	public void setPermissions(Set<Resource> permissions) {
+	public void setPermissions(Set<AppResource> permissions) {
 		this.permissions = permissions;
 	}
 

@@ -1,39 +1,64 @@
 package com.nevile.base.initail;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nevile.base.nevileauth.NevileAuth;
+import com.nevile.base.utils.NevileUtils;
+import com.nevile.rbac01.dao.AppResourceDao;
+import com.nevile.rbac01.pojo.AppResource;
 
+@Component
 public class StartupListener implements ApplicationListener<ContextRefreshedEvent> {
+	@Autowired
+	public AppResourceDao appResourceDao;
+
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		// 获取@JalorOperation注解的所有bean
-		Map<String, Object> map = event.getApplicationContext().getBeansWithAnnotation(NevileAuth.class);
-		System.out.println("----------bean----------");
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			Set<String> keySet = map.keySet();
-			Iterator<String> iterator = keySet.iterator();
-			while (iterator.hasNext()) {
-				String string = (String) iterator.next();
-				System.out.println(string+"----"+mapper.writeValueAsString(map.get(string)));
-				
+		String str = null;
+		// 比较器
+		HashSet<String> set = new HashSet<>();
+		// 更新容器
+		List<AppResource> addListAppResource = new ArrayList<AppResource>();
+		// 存量数据
+		List<AppResource> listAppResourceOld = appResourceDao.listAppResource();
+		for (AppResource appResource : listAppResourceOld) {
+			if (null == appResource.getOperation()) {
+				str = appResource.getResourceName() + "," + appResource.getResourceDes();
+			} else {
+				str = appResource.getResourceName() + "," + appResource.getOperation() + ","
+						+ appResource.getResourceDes();
 			}
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			set.add(str);
 		}
-		// 循环判断是否存在，获取属性值
-		
-		
+		List<AppResource> listAppResourceNew = ClassScaner.getAppResource();
+		for (AppResource appResource : listAppResourceNew) {
+			if (null == appResource.getOperation()) {
+				str = appResource.getResourceName() + "," + appResource.getResourceDes();
+			} else {
+				str = appResource.getResourceName() + "," + appResource.getOperation() + ","
+						+ appResource.getResourceDes();
+			}
+			// DB中不存在着新增
+			if (!set.contains(str)) {
+				addListAppResource.add(appResource);
+			}
+
+		}
+		System.err.println("=====待更新======");
+		for (AppResource updateResource : addListAppResource) {
+			updateResource.setResourceId(NevileUtils.getUUID());
+			updateResource.setApp("securtiy");
+			System.out.println(updateResource.toString());
+		}
+		// 更新DB
+		if (!addListAppResource.isEmpty())
+			appResourceDao.addListAppResource(addListAppResource);
 	}
+
 }

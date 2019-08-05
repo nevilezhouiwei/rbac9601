@@ -6,13 +6,19 @@ import java.lang.reflect.Method;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
-import com.nevile.base.nevileauth.NevileAuth;
 import com.nevile.base.nevileauth.NevileOperater;
 
-@Component
+
+/**
+ *  Class Name: MyListenerProcessor.java
+ *  Description: SpringBean 初始化的后处理，展示不适用，不进行注入
+ *  @author zw  DateTime 2019年8月5日 下午4:58:46 
+ *  @company zw 
+ *  @email 1102739617@qq.com
+ *  @version 1.0
+ */
 public class MyListenerProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
