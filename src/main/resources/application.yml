@@ -1,3 +1,19 @@
+server:
+  port: 8080
+  
+
 spring:
-  profiles:
-    active: dev
+  datasource:
+    username: springframwork
+    password: springframwork
+    url: jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 127.0.0.1)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = orcl)))
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    
+mybatis:
+  mapper-locations: classpath:mapping/**/*Mapper.xml
+  configLocation: classpath:mapping/mybatis-config.xml
+ 
+
+
+
+
