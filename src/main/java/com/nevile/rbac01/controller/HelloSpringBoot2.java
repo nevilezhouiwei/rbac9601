@@ -22,9 +22,9 @@ import com.nevile.rbac01.service.impl.ResourceServiceImpl;
  * @date: 2019年1月24日 下午11:15:58  
  */
 @RestController
-@RequestMapping("/hellospringboot")
-@NevileAuth(module = "HelloSpringBoot",desc="HSB 测试模块")
-public class HelloSpringBoot {
+@RequestMapping("/2")
+@NevileAuth(module = "2",desc="2")
+public class HelloSpringBoot2 {
 
 	@Autowired
 	public UserDetailsService UserDetailsService;
@@ -39,7 +39,7 @@ public class HelloSpringBoot {
 	 *  @return
 	 */
 	@RequestMapping("/write")
-	 @NevileOperater(operater = Operater.WRITE,desc="HSB 测试写接口")
+	 @NevileOperater(operater = Operater.WRITE,desc="2")
 	 public String write() {
 		 
 		return "write";
@@ -53,7 +53,7 @@ public class HelloSpringBoot {
 	 *  @return
 	 */
 	@RequestMapping("/read")
-	 @NevileOperater(operater = Operater.READ,desc="HSB 测试读接口")
+	 @NevileOperater(operater = Operater.READ,desc="2")
 	 public String read() {
 		 
 		return "read";

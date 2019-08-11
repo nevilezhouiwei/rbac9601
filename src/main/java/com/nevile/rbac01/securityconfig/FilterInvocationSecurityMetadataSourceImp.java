@@ -18,7 +18,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.nevile.rbac01.service.ResourceService;
+import com.nevile.rbac01.service.impl.ResourceServiceImpl;
 
 /**
  * 权限资源管理器 根据用户请求的地址，获取访问该地址需要的所需权限
@@ -29,7 +29,7 @@ import com.nevile.rbac01.service.ResourceService;
 public class FilterInvocationSecurityMetadataSourceImp implements FilterInvocationSecurityMetadataSource {
 
 	@Autowired
-	private ResourceService resourceService;
+	private ResourceServiceImpl resourceService;
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 

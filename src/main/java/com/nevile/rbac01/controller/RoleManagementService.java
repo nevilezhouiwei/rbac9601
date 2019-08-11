@@ -5,32 +5,38 @@
  */
 package com.nevile.rbac01.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nevile.base.nevileauth.NevileAuth;
 import com.nevile.base.nevileauth.NevileOperater;
 import com.nevile.base.nevileauth.Operater;
-import com.nevile.rbac01.service.impl.ResourceServiceImpl;
+import com.nevile.rbac01.pojo.AppResource;
+import com.nevile.rbac01.service.ResourceService;
 
 /** 
- * @ClassName: HelloSpringBoot 
- * @Description: HelloSpringBoot 测试模块
+ * @ClassName: RoleManagementService 
+ * @Description: 角色管理模块
  * @author: Administrator
  * @date: 2019年1月24日 下午11:15:58  
  */
 @RestController
-@RequestMapping("/hellospringboot")
-@NevileAuth(module = "HelloSpringBoot",desc="HSB 测试模块")
-public class HelloSpringBoot {
+@RequestMapping("/roleManagementService")
+@NevileAuth(module = "RoleManagementService",desc="角色管理模块")
+public class RoleManagementService {
 
 	@Autowired
 	public UserDetailsService UserDetailsService;
 	
 	@Autowired
-	public ResourceServiceImpl resourceService;
+	public ResourceService resourceService;
 
 	 
 	/**
@@ -48,18 +54,19 @@ public class HelloSpringBoot {
 	 
 	 
 	/**
-	 *  Description:HelloSpringBoot 测试模块 测试读接口
+	 *  Description:按照父ID查找子节点，默认参数为空
 	 *  @author zw DateTime 2019年8月5日 下午4:57:54
 	 *  @return
 	 */
-	@RequestMapping("/read")
-	 @NevileOperater(operater = Operater.READ,desc="HSB 测试读接口")
-	 public String read() {
-		 
-		return "read";
+	@GetMapping(value= {"/read/{parentId}","/read"})
+	 @NevileOperater(operater = Operater.READ,desc="查询角色信息")
+	 public List<AppResource> listRole(@PathVariable(value="parentId", required = false) String parentId ) {
+		
+		return resourceService.listAppResourceByParentId(parentId);
 		 
 	 }
-	 
+	
+
 
 
 }

@@ -18,6 +18,8 @@ public interface AppResourceDao  {
 	
 	public List<AppResource> getResourcebyId();
 	
+	public List<AppResource> listByAppResource(AppResource appResource);
+	
 	public void addListAppResource(List<AppResource> list);
 	
 	public void addResource(@Param("appResource") AppResource appResource);

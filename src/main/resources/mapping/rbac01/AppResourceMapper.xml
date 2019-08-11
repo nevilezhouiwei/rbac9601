@@ -5,9 +5,9 @@
 	<resultMap id="appResourceMapper"
 		type="com.nevile.rbac01.pojo.AppResource">
 		<id column="resource_id" property="resourceId" />
-		<result column="tpdid" property="tpdid" />
+		<result column="parentId" property="parentId" />
 		<result column="resource_name" property="resourceName" />
-		<result column="resource_des" property="resourceDes" />
+		<result column="des" property="des" />
 		<result column="app" property="app" />
 		<result column="operation" property="operation" />
 		<result column="create_time" property="createTime" />
@@ -17,9 +17,53 @@
 
 	</resultMap>
 
-	<select id="listAppResource" resultMap="appResourceMapper">
+	<select id="listAppResource"
+		parameterType="com.nevile.rbac01.pojo.AppResource"
+		resultMap="appResourceMapper">
 		select * from t_resource
+		t order by
+		t.resource_name,t.operation desc
 	</select>
+	<!-- 按照父ID查找节点 -->
+	<select id="listByAppResource"
+		resultMap="appResourceMapper">
+		select * from T_RESOURCE t where 1=1
+		<choose>
+			<when test="parentId !=null and parentId !=''">
+				and t.parentid=#{parentId}
+			</when>
+			<otherwise>
+				and t.parentid is null
+			</otherwise>
+		</choose>
+		<if test="resourceId !=null and resourceId !=''">
+			and t.resource_id=#{resourceId}
+		</if>
+		<if test="resourceName !=null and resourceName !=''">
+			and t.resource_name=#{resourceName}
+		</if>
+		<if test="des !=null and des !=''">
+			and t.des=#{des}
+		</if>
+		<if test="app !=null and app !=''"></if>
+		<if test="operation !=null and operation !=''">
+			and t.operation=#{operation}
+		</if>
+		<if test="createTime !=null and createTime !=''">
+			and t.create_time=#{createTime}</if>
+		<if test="createUser !=null and createUser !=''">
+			and t.create_user=#{createUser}
+		</if>
+		<if test="modifyTime !=null and modifyTime !=''">
+			and t.modify_time=#{modifyTime}
+		</if>
+		<if test="modifyBy !=null and modifyBy !=''">
+			and t.modify_by=#{modifyBy}
+		</if>
+		order by t.resource_name,t.operation desc
+
+	</select>
+
 
 
 	<select id="getResourcebyId" resultMap="appResourceMapper">
@@ -29,25 +73,26 @@
 	<insert id="addListAppResource" parameterType="java.util.List"
 		useGeneratedKeys="false">
 
-			insert into t_resource
-			(
-			resource_id,
-			tpdid,
-			resource_name,
-			resource_des,
-			app,
-			operation,
-			create_time,
-			create_user,
-			modify_time,
-			modify_by
-			) 
-			<foreach close=")" collection="list" item="item" index="index" open="(" separator="union">
+		insert into t_resource
+		(
+		resource_id,
+		parentId,
+		resource_name,
+		des,
+		app,
+		operation,
+		create_time,
+		create_user,
+		modify_time,
+		modify_by
+		)
+		<foreach close=")" collection="list" item="item" index="index"
+			open="(" separator="union">
 			SELECT
 			#{item.resourceId},
-			#{item.tpdid},
+			#{item.parentId},
 			#{item.resourceName},
-			#{item.resourceDes},
+			#{item.des},
 			#{item.app},
 			#{item.operation},
 			sysdate,
@@ -56,49 +101,18 @@
 			'test'
 			FROM dual
 		</foreach>
-
-
-
-		
-<!-- 		<foreach collection="updateList" item="item" index="index"
-			separator=";">
-			insert into t_resource
-			(
-			resource_id,
-			tpdid,
-			resource_name,
-			resource_des,
-			app,
-			operation,
-			create_time,
-			create_user,
-			modify_time,
-			modify_by
-			) values
-			(
-			#{item.resourceId},
-			#{item.tpdid},
-			#{item.resourceName},
-			#{item.resourceDes},
-			#{item.app},
-			#{item.operation},
-			sysdate,
-			'test',
-			sysdate,
-			'test'
-			)
-		</foreach> -->
 	</insert>
 
 
-	<insert id="addResource" parameterType="com.nevile.rbac01.pojo.AppResource"
+	<insert id="addResource"
+		parameterType="com.nevile.rbac01.pojo.AppResource"
 		useGeneratedKeys="false">
 		insert into t_resource
 		(
 		resource_id,
-		tpdid,
+		parentId,
 		resource_name,
-		resource_des,
+		des,
 		app,
 		operation,
 		create_time,
@@ -108,9 +122,9 @@
 		) values
 		(
 		#{appResource.resourceId},
-		#{appResource.tpdid},
+		#{appResource.parentId},
 		#{appResource.resourceName},
-		#{appResource.resourceDes},
+		#{appResource.des},
 		#{appResource.app},
 		#{appResource.operation},
 		sysdate,

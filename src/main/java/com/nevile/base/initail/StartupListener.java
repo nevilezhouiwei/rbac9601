@@ -1,8 +1,13 @@
 package com.nevile.base.initail;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,47 +36,110 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 	@Autowired
 	public AppResourceDao appResourceDao;
 
+	@Autowired
+	public SelfParaments selfParaments;
+
+	/**
+	 * Description:系统启动初始化
+	 * 
+	 * @author zw DateTime 2019年8月11日 下午3:08:11
+	 * @param event
+	 */
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
+		initialResource();
+	}
+
+	/**
+	 * Description:资源初始化
+	 * 
+	 * @author zw DateTime 2019年8月11日 下午4:41:01
+	 */
+	private void initialResource() {
+
 		String str = null;
-		// 比较器
-		HashSet<String> set = new HashSet<>();
+		// 资源比较器
+		HashSet<String> set = new HashSet<String>();
 		// 更新容器
 		List<AppResource> addListAppResource = new ArrayList<AppResource>();
 		// 存量数据
 		List<AppResource> listAppResourceOld = appResourceDao.listAppResource();
+		
+		//检查根节点，没有就插入
+		AppResource root = new AppResource();
+		root.setResourceId(selfParaments.id);
+		List<AppResource> dbroot = appResourceDao.listByAppResource(root);
+		if(dbroot.isEmpty()) {
+			Date date = new Date();
+			root.setResourceName(selfParaments.app);
+			root.setDes(selfParaments.app);
+			root.setCreateUser("system");
+			root.setModifyBy("system");
+			root.setCreateTime(date);
+			root.setModifyTime(date);
+			addListAppResource.add(root);
+			log.debug("内存扫描新增根节点" + "\t" + addListAppResource.toString());
+		
+		}
+		// 生成DB中资源数据
 		for (AppResource appResource : listAppResourceOld) {
 			if (null == appResource.getOperation()) {
-				str = appResource.getResourceName() + "," + appResource.getResourceDes();
+				str = appResource.getResourceName() + "," + appResource.getDes();
+				set.add(str);
 			} else {
-				str = appResource.getResourceName() + "," + appResource.getOperation() + ","
-						+ appResource.getResourceDes();
+				str = appResource.getResourceName() + "," + appResource.getOperation() + "," + appResource.getDes();
+				set.add(str);
 			}
-			set.add(str);
 		}
-		List<AppResource> listAppResourceNew = ClassScaner.getAppResource();
-		for (AppResource appResource : listAppResourceNew) {
-			if (null == appResource.getOperation()) {
-				str = appResource.getResourceName() + "," + appResource.getResourceDes();
-			} else {
-				str = appResource.getResourceName() + "," + appResource.getOperation() + ","
-						+ appResource.getResourceDes();
-			}
-			// DB中不存在着新增
+		// 生成当前代码资源数据
+		Map<AppResource, List<AppResource>> listAppResourceNew = ClassScaner.getAppResource();
+
+		// 校验新模块是否存在
+		Set<AppResource> modulNew = listAppResourceNew.keySet();
+		for (AppResource modulResource : modulNew) {
+			str = modulResource.getResourceName() + "," + modulResource.getDes();
 			if (!set.contains(str)) {
-				addListAppResource.add(appResource);
+				// 新增模块不存在
+				String id = NevileUtils.getUUID();
+				List<AppResource> listAppResources = listAppResourceNew.get(modulResource);
+				for (int i = 0; i < listAppResources.size(); i++) {
+					AppResource appResource = listAppResources.get(i);
+					appResource.setParentId(id);
+					appResource.setResourceId(NevileUtils.getUUID());
+					appResource.setResourceName(modulResource.getResourceName());
+					appResource.setApp(selfParaments.app);
+
+				}
+				modulResource.setResourceId(id);
+				modulResource.setParentId(selfParaments.id);
+
+				addListAppResource.addAll(listAppResources);
+				addListAppResource.add(modulResource);
+				// 记录日志
+				log.debug("内存扫描新增模块" + "\t" + addListAppResource.toString());
+			} else {
+				// 模块存在，检查是否有新增借口
+				List<AppResource> listAppResources = listAppResourceNew.get(modulResource);
+				for (int i = 0; i < listAppResources.size(); i++) {
+					str = listAppResources.get(1).getResourceName() + "," + listAppResources.get(1).getOperation() + ","
+							+ listAppResources.get(1).getDes();
+					if (!set.contains(str)) {
+						String parentID = modulResource.getResourceId();
+						listAppResources.get(i).setResourceId(parentID);
+						addListAppResource.add(listAppResources.get(i));
+						log.debug("内存扫描新增模块下借口数据" + "\t" + listAppResources.toString());
+					}
+				}
+
 			}
 
 		}
-		for (AppResource updateResource : addListAppResource) {
-			updateResource.setResourceId(NevileUtils.getUUID());
-			updateResource.setApp("securtiy");
-		}
+
 		// 更新DB
 		if (!addListAppResource.isEmpty())
 			appResourceDao.addListAppResource(addListAppResource);
 		// 记录日志
-		log.debug(addListAppResource.toString());
+		log.debug("资源更新结束！");
 	}
 
 }

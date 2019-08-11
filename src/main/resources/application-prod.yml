@@ -32,7 +32,8 @@ mybatis:
 
 #日志配置项
 logging:
-  level:    root: debug
+  level:
+    root: info
     
 
 

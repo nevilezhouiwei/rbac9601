@@ -12,10 +12,10 @@ import com.nevile.base.pojo.BasePojo;
 public class AppResource extends BasePojo {
 	
 	private String resourceId;//资源ID
-	private String tpdid;
+	private String parentId;//父ID
 	private String resourceName;//资源名称
 	private String operation;//操作
-	private String resourceDes;//资源描述
+	private String des;//资源描述
 	private String app;//资源归类
 	public String getResourceId() {
 		return resourceId;
@@ -36,11 +36,11 @@ public class AppResource extends BasePojo {
 	public void setOperation(String operation) {
 		this.operation = operation;
 	}
-	public String getResourceDes() {
-		return resourceDes;
+	public String getDes() {
+		return des;
 	}
-	public void setResourceDes(String resourceDes) {
-		this.resourceDes = resourceDes;
+	public void setDes(String des) {
+		this.des = des;
 	}
 	public String getApp() {
 		return app;
@@ -48,16 +48,16 @@ public class AppResource extends BasePojo {
 	public void setApp(String app) {
 		this.app = app;
 	}
-	public String getTpdid() {
-		return tpdid;
+	public String getParentId() {
+		return parentId;
 	}
-	public void setTpdid(String tpdid) {
-		this.tpdid = tpdid;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 	@Override
 	public String toString() {
-		return "AppResource [resourceId=" + resourceId + ", tpdid=" + tpdid + ", resourceName=" + resourceName
-				+ ", operation=" + operation + ", resourceDes=" + resourceDes + ", app=" + app + "]";
+		return "AppResource [resourceId=" + resourceId + ", parentId=" + parentId + ", resourceName=" + resourceName
+				+ ", operation=" + operation + ", des=" + des + ", app=" + app + "]";
 	}
 	
 

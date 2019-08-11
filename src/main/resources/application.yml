@@ -1,3 +1,8 @@
 spring:
   profiles:
-    active: dev
+    active: prod
+    
+#自定义属性
+self-paraments:
+  app: securtiy
+  id: 01a42cdaa9104570ad41ac22ac29a0e4

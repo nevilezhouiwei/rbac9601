@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -125,11 +128,38 @@ public class ClassScaner implements ResourceLoaderAware {
 	}
 
 	public static void main(String[] args) {
-		ClassScaner.scan("com.nevile", NevileAuth.class).forEach(clazz -> System.out.println(clazz));
-		List<AppResource> appResource = getAppResource();
-		for (AppResource appResource2 : appResource) {
-			System.err.println(appResource2.toString());
-		}
+		
+//		ClassScaner.scan("com.nevile", NevileAuth.class).forEach(clazz -> System.out.println(clazz));
+//		Map<AppResource, List<AppResource>> appResource = getAppResource();
+//		Set<AppResource> keySet = appResource.keySet();
+//		for (AppResource appResource2 : keySet) {
+//			System.out.println("模块"+appResource2.toString());
+//			List<AppResource> list = appResource.get(appResource2);
+//			for (int i = 0; i < list.size(); i++) {
+//				System.out.println("工能"+list.get(i).toString());
+//			}
+//		}
+		
+
+	
+			List<Integer> list1 = new ArrayList<Integer>();
+			for (int i = 0; i < 5; i++) {
+				list1.add(i);
+			}
+			System.out.println(list1.toString());
+			List<Integer> list12 = list1;
+			for (int i = 0; i < list12.size(); i++) {
+				list12.set(i, i-1);
+				
+			}
+			System.out.println(list1.toString());
+			
+			System.out.println(list12.toString());
+			
+		
+
+
+	
 	}
 
 	/*
@@ -140,48 +170,53 @@ public class ClassScaner implements ResourceLoaderAware {
 	 * 5 中台生成权限数据时  完成
 	 */
 
-	public static List<AppResource> getAppResource() {
-		// 资源列表
-		List<AppResource> listResource = new ArrayList<AppResource>();
+	public static Map<AppResource,List<AppResource>> getAppResource() {
+		//资源表
+		Map<AppResource,List<AppResource>> map = new HashMap<AppResource, List<AppResource>>();
 		// 字符化资源列表
 		HashSet<String> setResource = new HashSet<String>();
-		AppResource res = null;
+		//Class
 		Set<Class> set = ClassScaner.scan("com.nevile", NevileAuth.class);
 		if (null == set)
 			return null;
+		//解析资源
 		for (Class moduleClass : set) {
 			//先生成模块名称
-			AppResource AppResource = new AppResource();
+			AppResource modul = null;
+			
 			NevileAuth annotation = (NevileAuth) moduleClass.getAnnotation(NevileAuth.class);
 			String authMoudle = annotation.module();
 			String authMoudleDesc = annotation.desc();
-			System.out.println(authMoudle + "," + authMoudleDesc);
+			System.out.println("模块名称"+authMoudle + "," + authMoudleDesc);
 			// 添加重复，是会有报错的，暂时不处理
 			setResource.add(authMoudle + "," + authMoudleDesc);
 
-			res = new AppResource();
-			res.setResourceName(authMoudle);
-			res.setResourceDes(authMoudleDesc);
-			listResource.add(res);
+			modul = new AppResource();
+			modul.setResourceName(authMoudle);
+			modul.setDes(authMoudleDesc);
 			//寻找模块名称中方法的权限
+			List<AppResource> listResource = new ArrayList<AppResource>();;
 			Method[] methods = moduleClass.getMethods();
 			for (Method method : methods) {
 				boolean isOperater = method.isAnnotationPresent(NevileOperater.class);
 				if (isOperater) {
+					// 资源列表
+					AppResource resource = new AppResource();
 					NevileOperater nevileOperater = method.getAnnotation(NevileOperater.class);
 					String operater = nevileOperater.operater();
 					String operaterDesc = nevileOperater.desc();
 					setResource.add(authMoudle + "," + operater + "," + operaterDesc);
-					res = new AppResource();
-					res.setResourceName(authMoudle);
-					res.setResourceDes(operaterDesc);
-					res.setOperation(operater);
-					listResource.add(res);
+					
+					resource.setResourceName(authMoudle);
+					resource.setDes(operaterDesc);
+					resource.setOperation(operater);
+					listResource.add(resource);
 				}
 			}
-
+			//
+			map.put(modul, listResource);
 		}
-		return listResource;
+		return map;
 
 	}
 }
