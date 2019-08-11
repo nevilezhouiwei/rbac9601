@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+ 
+	<!-- 数据库驱动jar路径 -->
+	<classPathEntry location="E:/mavenRepositorie/com/oracle/ojdbc6/11.2.0.4.0-atlassian-hosted/ojdbc6-11.2.0.4.0-atlassian-hosted.jar"/>
+	
+	<context id="context1">
+	
+		<!-- 1：注释构建;type-可通过实现CommentGenerator接口构建自定义的注释构建类 -->
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释；true:是；false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+ 
+		<!-- 2：数据库连接信息 -->
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 127.0.0.1)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = orcl)))" userId="springframwork" password="springframwork">
+		</jdbcConnection>
+		
+		<!-- 3：生成实体类地址 -->
+		<javaModelGenerator targetPackage="com.nevile.base.pojo" targetProject="rbac9601"></javaModelGenerator>
+	
+		<!-- 4.生成map.xml地址 -->		
+		<sqlMapGenerator targetPackage="com.nevile.base.xml" targetProject="rbac9601"></sqlMapGenerator>
+ 
+		<!-- 5.生成DAO地址 -->
+		<javaClientGenerator targetPackage="com.nevile.base.dao" type="XMLMAPPER" targetProject="rbac9601"></javaClientGenerator>
+		
+		<!-- 配置表信息 -->
+		<table tableName="t_resource" domainObjectName="Resource"></table>
+	</context>
+</generatorConfiguration>
