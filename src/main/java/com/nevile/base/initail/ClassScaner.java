@@ -129,35 +129,17 @@ public class ClassScaner implements ResourceLoaderAware {
 
 	public static void main(String[] args) {
 		
-//		ClassScaner.scan("com.nevile", NevileAuth.class).forEach(clazz -> System.out.println(clazz));
-//		Map<AppResource, List<AppResource>> appResource = getAppResource();
-//		Set<AppResource> keySet = appResource.keySet();
-//		for (AppResource appResource2 : keySet) {
-//			System.out.println("模块"+appResource2.toString());
-//			List<AppResource> list = appResource.get(appResource2);
-//			for (int i = 0; i < list.size(); i++) {
-//				System.out.println("工能"+list.get(i).toString());
-//			}
-//		}
-		
-
-	
-			List<Integer> list1 = new ArrayList<Integer>();
-			for (int i = 0; i < 5; i++) {
-				list1.add(i);
+		ClassScaner.scan("com.nevile", NevileAuth.class).forEach(clazz -> System.out.println(clazz));
+		Map<AppResource, List<AppResource>> appResource = getAppResource();
+		Set<AppResource> keySet = appResource.keySet();
+		for (AppResource appResource2 : keySet) {
+			System.out.println("模块"+appResource2.toString());
+			List<AppResource> list = appResource.get(appResource2);
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println("工能"+list.get(i).toString());
 			}
-			System.out.println(list1.toString());
-			List<Integer> list12 = list1;
-			for (int i = 0; i < list12.size(); i++) {
-				list12.set(i, i-1);
-				
-			}
-			System.out.println(list1.toString());
-			
-			System.out.println(list12.toString());
-			
+		}
 		
-
 
 	
 	}
