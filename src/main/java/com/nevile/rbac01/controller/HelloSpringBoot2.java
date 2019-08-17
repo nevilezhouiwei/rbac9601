@@ -7,12 +7,14 @@ package com.nevile.rbac01.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nevile.base.nevileauth.NevileAuth;
 import com.nevile.base.nevileauth.NevileOperater;
 import com.nevile.base.nevileauth.Operater;
+import com.nevile.rbac01.pojo.User;
 import com.nevile.rbac01.service.impl.ResourceServiceImpl;
 
 /** 
@@ -22,9 +24,9 @@ import com.nevile.rbac01.service.impl.ResourceServiceImpl;
  * @date: 2019年1月24日 下午11:15:58  
  */
 @RestController
-@RequestMapping("/2")
-@NevileAuth(module = "2",desc="2")
+@RequestMapping("/session_expired")
 public class HelloSpringBoot2 {
+	
 
 	@Autowired
 	public UserDetailsService UserDetailsService;
@@ -39,7 +41,6 @@ public class HelloSpringBoot2 {
 	 *  @return
 	 */
 	@RequestMapping("/write")
-	 @NevileOperater(operater = Operater.WRITE,desc="2")
 	 public String write() {
 		 
 		return "write";
@@ -52,9 +53,9 @@ public class HelloSpringBoot2 {
 	 *  @author zw DateTime 2019年8月5日 下午4:57:54
 	 *  @return
 	 */
-	@RequestMapping("/read")
-	 @NevileOperater(operater = Operater.READ,desc="2")
-	 public String read() {
+	@PostMapping("/read")
+	 public String read(User user) {
+		
 		 
 		return "read";
 		 

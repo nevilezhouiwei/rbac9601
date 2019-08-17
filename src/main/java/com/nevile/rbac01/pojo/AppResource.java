@@ -5,25 +5,35 @@
  */
 package com.nevile.rbac01.pojo;
 
-import org.springframework.stereotype.Component;
+import java.io.Serializable;
+import java.util.Date;
 
-import com.nevile.base.pojo.BasePojo;
-@Component
-public class AppResource extends BasePojo {
+public class AppResource implements Serializable {
+
+	private static final long serialVersionUID = 9128086272534082336L;
 	
-	private String resourceId;//资源ID
-	private String parentId;//父ID
-	private String resourceName;//资源名称
-	private String operation;//操作
-	private String des;//资源描述
-	private String app;//资源归类
+	private String resourceId;// 资源ID
+	private String parentId;// 父ID
+	private String resourceName;// 资源名称
+	private String operation;// 操作
+	private String des;// 资源描述
+	private String app;// 资源归类
+	private Date createTime;
+	private String createUser;
+	private Date modifyTime;
+	private String modifyBy;
 	public String getResourceId() {
 		return resourceId;
 	}
 	public void setResourceId(String resourceId) {
 		this.resourceId = resourceId;
 	}
-
+	public String getParentId() {
+		return parentId;
+	}
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
 	public String getResourceName() {
 		return resourceName;
 	}
@@ -48,17 +58,38 @@ public class AppResource extends BasePojo {
 	public void setApp(String app) {
 		this.app = app;
 	}
-	public String getParentId() {
-		return parentId;
+	public Date getCreateTime() {
+		return createTime;
 	}
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
+	public String getCreateUser() {
+		return createUser;
+	}
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+	public Date getModifyTime() {
+		return modifyTime;
+	}
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+	public String getModifyBy() {
+		return modifyBy;
+	}
+	public void setModifyBy(String modifyBy) {
+		this.modifyBy = modifyBy;
+	}
+
 	@Override
 	public String toString() {
 		return "AppResource [resourceId=" + resourceId + ", parentId=" + parentId + ", resourceName=" + resourceName
-				+ ", operation=" + operation + ", des=" + des + ", app=" + app + "]";
+				+ ", operation=" + operation + ", des=" + des + ", app=" + app + ", createTime=" + createTime
+				+ ", createUser=" + createUser + ", modifyTime=" + modifyTime + ", modifyBy=" + modifyBy + "]";
 	}
+	
 	
 
 }

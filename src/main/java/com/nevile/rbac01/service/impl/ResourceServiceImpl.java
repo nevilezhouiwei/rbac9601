@@ -11,11 +11,13 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.nevile.rbac01.pojo.AppResource;
 import com.nevile.rbac01.pojo.Role;
 import com.nevile.rbac01.pojo.User;
+import com.nevile.rbac01.service.ResourceService;
 
 @Service
-public class ResourceServiceImpl {
+public class ResourceServiceImpl implements ResourceService{
 //	@Autowired(required=false)
 //	private AppResourceDao permissionDao;
 
@@ -24,7 +26,7 @@ public class ResourceServiceImpl {
 	 */
 	public List<String> getRolesByUser(User user) {
 		List<String> rolesList = new ArrayList<String>();
-		Set<Role> roles = user.getRoles();
+		List<Role> roles = user.getRoles();
 		for (Role role : roles) {
 			rolesList.add(role.getRoleName());
 		}
@@ -51,6 +53,44 @@ public class ResourceServiceImpl {
 //			return rolesList;
 //		}
 		return null;
+	}
+
+	
+	/**
+	 *  Description:
+	 *  @author zw DateTime 2019年8月13日 下午12:06:30
+	 *  @return
+	 */
+	@Override
+	public List<AppResource> listAppResource() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	/**
+	 *  Description:
+	 *  @author zw DateTime 2019年8月13日 下午12:06:30
+	 *  @param parentId
+	 *  @return
+	 */
+	@Override
+	public List<AppResource> listAppResourceByParentId(String parentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	/**
+	 *  Description:
+	 *  @author zw DateTime 2019年8月13日 下午12:06:30
+	 *  @param appResource
+	 *  @return
+	 */
+	@Override
+	public boolean hasAppResource(AppResource appResource) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

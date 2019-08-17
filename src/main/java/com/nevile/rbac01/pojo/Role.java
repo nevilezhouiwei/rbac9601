@@ -1,44 +1,51 @@
-/**   
- * @Package: com.nevile.rbac01.pojo 
- * @author: zhouwei   
- * @date: 2019年4月4日 下午9:26:25 
- */
 package com.nevile.rbac01.pojo;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-import com.nevile.base.pojo.BasePojo;
+import org.springframework.format.annotation.DateTimeFormat;
 
-/** 
- * @ClassName: Role 
- * @Description: 角色POJO
- * @author: Administrator
- * @date: 2019年4月4日 下午9:26:25  
- */
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class Role extends BasePojo{
-	
-	private String roleID;
+public class Role implements Serializable {
 
-	private Set<User> users = new HashSet<User>();
+	private static final long serialVersionUID = -3437448321138785969L;
 
+	private String roleId;
 
-	private Set<AppResource> permissions = new HashSet<AppResource>();
-
-	
 	private String roleName;
-	
+
 	private String roleDes;
-	
-	
-	
-	public String getRoleID() {
-		return roleID;
+
+	private List<AppResource> appResource;
+
+	public List<AppResource> getAppResource() {
+		return appResource;
 	}
 
-	public void setRoleID(String roleID) {
-		this.roleID = roleID;
+	public void setAppResource(List<AppResource> appResource) {
+		this.appResource = appResource;
+	}
+	//否则MVC的转换器是不能把时间进行有效转换的
+	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTime;
+
+
+	private String createUser;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")//这种方式可以处理空字符串的问题
+	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date modifyTime;
+
+	private String modifyBy;
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getRoleName() {
@@ -56,33 +63,42 @@ public class Role extends BasePojo{
 	public void setRoleDes(String roleDes) {
 		this.roleDes = roleDes;
 	}
-	
-	
 
-	public Set<AppResource> getAppResource() {
-		return permissions;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setPermissions(Set<AppResource> permissions) {
-		this.permissions = permissions;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public Date getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+	public String getModifyBy() {
+		return modifyBy;
+	}
+
+	public void setModifyBy(String modifyBy) {
+		this.modifyBy = modifyBy;
+	}
 	@Override
 	public String toString() {
-		return "Role [roleID=" + roleID + ", permissions=" + permissions + ", roleName=" + roleName + ", roleDes="
-				+ roleDes + ", toString()=" + super.toString() + "]";
+		return "Role [roleId=" + roleId + ", roleName=" + roleName + ", roleDes=" + roleDes + ", appResource="
+				+ appResource + ", createTime=" + createTime + ", createUser=" + createUser + ", modifyTime="
+				+ modifyTime + ", modifyBy=" + modifyBy + "]";
 	}
-
-	
-	
-
-	
-
-	
-
-	
-	
-
-
-
 }

@@ -18,15 +18,15 @@
 		</jdbcConnection>
 		
 		<!-- 3：生成实体类地址 -->
-		<javaModelGenerator targetPackage="com.nevile.base.pojo" targetProject="rbac9601"></javaModelGenerator>
+		<javaModelGenerator targetPackage="com.nevile.rbac01.pojo" targetProject="rbac9601"></javaModelGenerator>
 	
 		<!-- 4.生成map.xml地址 -->		
-		<sqlMapGenerator targetPackage="com.nevile.base.xml" targetProject="rbac9601"></sqlMapGenerator>
+		<sqlMapGenerator targetPackage="com.nevile.rbac01.xml" targetProject="rbac9601"></sqlMapGenerator>
  
 		<!-- 5.生成DAO地址 -->
-		<javaClientGenerator targetPackage="com.nevile.base.dao" type="XMLMAPPER" targetProject="rbac9601"></javaClientGenerator>
+		<javaClientGenerator targetPackage="com.nevile.rbac01.dao" type="XMLMAPPER" targetProject="rbac9601"></javaClientGenerator>
 		
 		<!-- 配置表信息 -->
-		<table tableName="t_resource" domainObjectName="Resource"></table>
+		<table tableName="t_user" domainObjectName="User"></table>
 	</context>
 </generatorConfiguration>

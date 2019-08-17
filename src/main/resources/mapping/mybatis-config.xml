@@ -6,7 +6,7 @@
 <configuration>
 
 	<properties>
-		<property name="dialect" value="mysql" />
+		<property name="dialect" value="oracle" />
 	</properties>
 	<settings>
 	<!-- 打印查询语句 -->

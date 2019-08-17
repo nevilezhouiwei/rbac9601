@@ -205,12 +205,15 @@ public class ClassScaner implements ResourceLoaderAware {
 					NevileOperater nevileOperater = method.getAnnotation(NevileOperater.class);
 					String operater = nevileOperater.operater();
 					String operaterDesc = nevileOperater.desc();
-					setResource.add(authMoudle + "," + operater + "," + operaterDesc);
+					boolean add = setResource.add(authMoudle + "," + operater + "," + operaterDesc);
+					if (add) {
+						resource.setResourceName(authMoudle);
+						resource.setDes(operaterDesc);
+						resource.setOperation(operater);
+						listResource.add(resource);
+					}
 					
-					resource.setResourceName(authMoudle);
-					resource.setDes(operaterDesc);
-					resource.setOperation(operater);
-					listResource.add(resource);
+			
 				}
 			}
 			//
