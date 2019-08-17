@@ -57,13 +57,16 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 	 */
 	private void initialResource() {
 
-		String str = null;
-		// 资源比较器
-		HashSet<String> set = new HashSet<String>();
+		
+	
 		// 更新容器
 		List<AppResource> addListAppResource = new ArrayList<AppResource>();
 		// 存量数据
 		List<AppResource> listAppResourceOld = appResourceDao.listAppResource();
+		// 资源比较器
+		HashMap<String, String>  mapAppResourceOldId = new HashMap<String, String>();
+		Set<String> set = mapAppResourceOldId.keySet();
+	
 		
 		//检查根节点，没有就插入
 		AppResource root = new AppResource();
@@ -83,25 +86,26 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 		}
 		// 生成DB中资源数据
 		for (AppResource appResource : listAppResourceOld) {
+			String str = null;
 			if (null == appResource.getOperation()) {
 				str = appResource.getResourceName() + "," + appResource.getDes();
-				set.add(str);
 			} else {
 				str = appResource.getResourceName() + "," + appResource.getOperation() + "," + appResource.getDes();
-				set.add(str);
 			}
+			mapAppResourceOldId.put(str, appResource.getResourceId());
 		}
 		// 生成当前代码资源数据
-		Map<AppResource, List<AppResource>> listAppResourceNew = ClassScaner.getAppResource();
+		Map<AppResource, List<AppResource>> maptAppResourceNew = ClassScaner.getAppResource();
 
 		// 校验新模块是否存在
-		Set<AppResource> modulNew = listAppResourceNew.keySet();
+		Set<AppResource> modulNew = maptAppResourceNew.keySet();
 		for (AppResource modulResource : modulNew) {
-			str = modulResource.getResourceName() + "," + modulResource.getDes();
-			if (!set.contains(str)) {
+			String strmodulResource = null;
+			strmodulResource = modulResource.getResourceName() + "," + modulResource.getDes();
+			if (!set.contains(strmodulResource)) {
 				// 新增模块不存在
 				String id = NevileUtils.getUUID();
-				List<AppResource> listAppResources = listAppResourceNew.get(modulResource);
+				List<AppResource> listAppResources = maptAppResourceNew.get(modulResource);
 				for (int i = 0; i < listAppResources.size(); i++) {
 					AppResource appResource = listAppResources.get(i);
 					appResource.setParentId(id);
@@ -119,22 +123,24 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 				log.debug("内存扫描新增模块" + "\t" + addListAppResource.toString());
 			} else {
 				// 模块存在，检查是否有新增借口
-				List<AppResource> listAppResources = listAppResourceNew.get(modulResource);
+				List<AppResource> listAppResources = maptAppResourceNew.get(modulResource);
+				String strInterface = null;
 				for (int i = 0; i < listAppResources.size(); i++) {
-					str = listAppResources.get(1).getResourceName() + "," + listAppResources.get(1).getOperation() + ","
+					strInterface = listAppResources.get(1).getResourceName() + "," + listAppResources.get(1).getOperation() + ","
 							+ listAppResources.get(1).getDes();
-					if (!set.contains(str)) {
+					if (!set.contains(strInterface)) {
 						String parentID = modulResource.getResourceId();
-						listAppResources.get(i).setResourceId(parentID);
+						listAppResources.get(i).setResourceId(NevileUtils.getUUID());
+						listAppResources.get(i).setParentId(mapAppResourceOldId.get(strmodulResource));
 						addListAppResource.add(listAppResources.get(i));
-						log.debug("内存扫描新增模块下借口数据" + "\t" + listAppResources.toString());
 					}
 				}
 
 			}
+			
 
 		}
-
+		log.debug("内存扫描新增模块下借口数据" + "\t" + addListAppResource.toString());
 		// 更新DB
 		if (!addListAppResource.isEmpty())
 			appResourceDao.addListAppResource(addListAppResource);

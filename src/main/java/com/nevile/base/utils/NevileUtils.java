@@ -1,5 +1,6 @@
 package com.nevile.base.utils;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -27,6 +28,13 @@ public class NevileUtils {
         String temp = str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) + str.substring(24);   
         return temp;   
     } 
+    
+    public static Date getDate() {
+    	Date date = new Date();
+    	
+		return null;
+    	
+    }
     
     public static void main(String[] args) {
 		System.out.println(getUUID());

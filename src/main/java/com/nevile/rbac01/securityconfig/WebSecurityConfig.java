@@ -6,66 +6,38 @@
 package com.nevile.rbac01.securityconfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import com.nevile.rbac01.service.UserDetailsServiceImp;
-
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 // security 使能
 /*
  * 重写父类WebSecurityConfigurerAdapter的方法来实现自定义的权限认证
  */
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsServiceImp userService;
 
-    /** 
-     * 定义不需要过滤的静态资源（等价于HttpSecurity的permitAll） 
-     */  
-    @Override  
-    public void configure(WebSecurity webSecurity) throws Exception {  
-        webSecurity.ignoring().antMatchers("/**");  
-    }  
 
-    /**  
-     * 安全策略配置  
-     */  
-    @Override  
-    protected void configure(HttpSecurity httpSecurity) throws Exception {  
-        httpSecurity  
-            .authorizeRequests()  
-            // 对于网站部分资源需要指定鉴权  
-            //.antMatchers("/admin/**").hasRole("ADMIN")  
-            // 除上面外的所有请求全部需要鉴权认证  
-            .anyRequest().authenticated().and()  
-            // 定义当需要用户登录时候，转到的登录页面  
-            .formLogin()
-            //.loginPage("/login").defaultSuccessUrl("/index").permitAll()
-            .and()  
-            // 定义登出操作  
-            //.logout().logoutSuccessUrl("/login?logout").permitAll()
-            //.and()  
-            .csrf().disable()  
-            ;  
-        // 禁用缓存  
-        httpSecurity.headers().cacheControl();  
-    }  
-    
+	/**
+	 * 定义不需要过滤的静态资源（等价于HttpSecurity的permitAll）
+	 */
+	@Override
+	public void configure(WebSecurity webSecurity) throws Exception {
+		webSecurity.ignoring().antMatchers("/**");
+	}
 
-    
-    /**  
-     * 开启注解控制权限  
-     * 见Controller 中 @PreAuthorize("hasAuthority('XXX')")  
-     */  
+	/**
+	 * 安全策略配置
+	 */
+
+
+	/**
+	 * 开启注解控制权限 见Controller 中 @PreAuthorize("hasAuthority('XXX')")
+	 */
 //    @Bean  
 //    @Override  
 //    public AuthenticationManager authenticationManagerBean() throws Exception {  
